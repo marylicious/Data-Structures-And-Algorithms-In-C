@@ -11,6 +11,8 @@ int main () {
     //nos permite declarar un tipo de dato puntero, también nos permite ver el
     // VALOR que está en la dirección asignada.
 
+    //Importante> los punteros deben ser del mismo tipo a la variable a la que van a apuntar.
+
 
     $puntero = &x; //le asigno a puntero la direccion de memoria de x;
 
