@@ -260,8 +260,34 @@ void eliminarUltOcurr(lista **p, int x) {
 
 	} 
 }
+
+void insertarLuegoDeValor(lista **p, int x, int y){
+	lista *aux = *p;
+	lista *nodo_nuevo = malloc(sizeof(lista));
+
+	nodo_nuevo -> valor = x;
+
+	if(aux!=NULL){
+		while((aux->sig != NULL)&&(aux->valor != y))
+			aux = aux->sig;
+		
+		if(aux->sig!= NULL)
+			nodo_nuevo->sig = aux ->sig;
+		 else 
+			//no se encontro y
+			nodo_nuevo -> sig = NULL;
+
+		aux ->sig = nodo_nuevo;
+
+
+	} else {
+		nodo_nuevo->sig = NULL;
+		*p = nodo_nuevo;
+	}
+}
+
 void main () {
-    int op = -1, x=0;
+    int op = -1, x=0, y=0;
 	lista *p=NULL;
 	while ( op ){
 		// agregar system("cls");	
@@ -272,7 +298,8 @@ void main () {
 		printf( "4.\tMostrar numeros al reves y hacer suma de los digitos\n ");
 		printf( "5.\tEliminar numeros primos de la lista\n ");
 		printf( "6.\tDejar los pares al final de la lista\n ");
-		printf( "7.\tEliminar ultima ocurrencia de dato\n\n");
+		printf( "7.\tEliminar ultima ocurrencia de dato\n ");
+		printf( "8.\tInsertar luego de un valor dado\n\n");
 		printf( "0.\tSALIR del sistema\n\n ");
 		
 		scanf("%i", &op);
@@ -298,6 +325,13 @@ void main () {
 		        scanf( "%i", &x);
 				eliminarUltOcurr(&p, x);
 				break;
+		case 8: printf("\n\nIndique dato a Insertar ");
+		        scanf( "%i", &x);
+				printf("\n\nIndique valor de nodo previo al dato");
+				scanf( "%i", &y);
+		        insertarLuegoDeValor(&p, x, y);
+
+		        break;
         }
     }	
     
