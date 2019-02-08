@@ -50,6 +50,14 @@ int esPrimo(int num){
   
 }
 
+int esPar(int num){
+	if(num%2==0){
+		return 1;
+	} else {
+		return 0;
+	}
+}
+
 //FUNCIONES PRINCIPAlES
 void insertar( lista **cab, int x){
 	/* inserta x por el comienzo de la lista p */
@@ -140,6 +148,75 @@ void eliminarPrimos(lista **cab){
 
 }
 
+
+void paresAlFinal(lista **cab) {
+	
+	lista *impar = *cab;
+	lista *par = *cab;
+	lista *sigPar, *sigImpar,*ultImpar;
+	int cont = 0;
+
+	//condicion verifica que hallan nodos
+	if(par!=NULL && impar!=NULL) {
+
+		while ((par != NULL) || (impar != NULL)) {
+
+			//buscar el primer par y el primer impar
+
+			while( (impar != NULL) && esPar(impar->valor) ) {
+				impar = impar->sig;
+			}
+			
+			//reposiciono cabeza de la lista la primera vez que corre el bucle
+			if(cont<=0){
+				*cab = impar;
+			}
+
+			while( (par != NULL) && !esPar(par->valor) ) {
+				par = par->sig;
+			}
+			
+			//Buscar el siguiente par y el siguiente impar
+			if(impar!= NULL) {
+				sigImpar = impar;
+				do {
+					sigImpar = sigImpar -> sig;
+				} while((sigImpar!=NULL) && esPar(sigImpar->valor));
+			} else {
+				sigImpar = NULL;
+			}
+
+			if(par!= NULL) {
+				sigPar = par;
+				do {
+					sigPar = sigPar -> sig;
+				} while((sigPar!=NULL) && !esPar(sigPar->valor));
+			} else {
+				sigImpar = NULL;
+			}
+			
+
+			//enlazo valores con los siguientes
+			if(impar!= NULL) {
+				impar->sig = sigImpar;
+				ultImpar = impar;
+				printf("ulti impar %i", ultImpar->valor);
+			}
+			if(par!= NULL)
+				par -> sig = sigPar;
+
+			//reinicio los nodos par e impar para poder hacer bucle
+			impar = sigImpar;
+			par = sigPar;
+			cont++;
+		} 
+
+		ultImpar->sig = par; //uno los punteros impares con pares
+		
+		
+	}	
+	
+}
 void main () {
     int op = -1, x=0;
 	lista *p=NULL;
@@ -170,6 +247,8 @@ void main () {
 		case 4: voltearYSumDig(p);
 				break;
 		case 5: eliminarPrimos(&p);
+				break;
+		case 6: paresAlFinal(&p);
 				break;
         }
     }	
