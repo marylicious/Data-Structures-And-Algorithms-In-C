@@ -72,13 +72,13 @@ void mostrarPrimosOCapicuas(int *p, int n) {
         primo = esPrimo(*p);
         capicua= esCapicua(*p);
 
-        if((primo ==1) || (capicua ==1 )){
+        if((primo) || (capicua)){
             printf("A[%i] de valor %i es ", i, *p);
 
-            if(primo==1) { 
+            if(primo) { 
                 printf("primo ");
             }
-            if(capicua==1){
+            if(capicua){
                 printf("capicua");
             }
 
@@ -87,13 +87,33 @@ void mostrarPrimosOCapicuas(int *p, int n) {
     }
 }
 
-void sumaDeDigitosYVolteado(int *p, int n) {
-    int i;
+void sumaDeDigitos(int *p, int n) {
+    int i,suma,aux,digito;
     
-    for (i=0; i<n; i++, p++){
-       // printf()
+    for (i=0; i<n; i++){
+       
+       suma = 0;
+       aux =*(p+i);
+
+       while(aux>0){
+           digito= aux%10;
+           suma+=digito;
+           aux/=10;
+       }
+
+       *(p+i)=suma;
     }
+
+    muestravector(p,n);
     
+}
+
+void voltearDigitos(int *p, int n){
+    int i;
+    for (i=0; i<n; i++){
+        *(p+i)= calcVolteado(*(p+i));
+    }
+    muestravector(p,n);
 }
 
 /*    programa principal */
@@ -106,7 +126,8 @@ void main ( )
 	printf ("\t1. Llenar vector desde pantalla\n");
 	printf ("\t2. Mostrar vector en pantalla\n");
     printf ("\t3. Mostrar primos o capicuas de un vector\n");
-    printf ("\t4. Sume y voltee los digitos del vector\n");
+    printf ("\t4. Sumar digitos\n");
+    printf ("\t5. Voltear digitos\n");
 	printf ("\t0. Salir\n");
 
 	scanf ("%d", &op);
@@ -118,8 +139,10 @@ void main ( )
 		        break;
         case 3: mostrarPrimosOCapicuas( &A[0], n);
 		        break;
-        case 4: sumaDeDigitosYVolteado( &A[0], n);
-		        break;      
+        case 4: sumaDeDigitos( &A[0], n);
+		        break; 
+        case 5: voltearDigitos(&A[0], n);
+		        //break;     
 	};
 
 	//system("pause");
