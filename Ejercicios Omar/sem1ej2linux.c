@@ -153,7 +153,7 @@ void paresAlFinal(lista **cab) {
 	
 	lista *impar = *cab;
 	lista *par = *cab;
-	lista *sigPar, *sigImpar,*ultImpar;
+	lista *sigPar, *sigImpar,*ultImpar, *primerPar;
 	int cont = 0;
 
 	//condicion verifica que hallan nodos
@@ -174,6 +174,11 @@ void paresAlFinal(lista **cab) {
 
 			while( (par != NULL) && !esPar(par->valor) ) {
 				par = par->sig;
+			}
+
+			//guardo el puntero hacia el primer par
+			if(cont<=0){
+				primerPar = par;
 			}
 			
 			//Buscar el siguiente par y el siguiente impar
@@ -200,8 +205,8 @@ void paresAlFinal(lista **cab) {
 			if(impar!= NULL) {
 				impar->sig = sigImpar;
 				ultImpar = impar;
-				printf("ulti impar %i", ultImpar->valor);
 			}
+
 			if(par!= NULL)
 				par -> sig = sigPar;
 
@@ -211,11 +216,49 @@ void paresAlFinal(lista **cab) {
 			cont++;
 		} 
 
-		ultImpar->sig = par; //uno los punteros impares con pares
+		ultImpar->sig = primerPar; //uno los punteros impares con pares
 		
 		
 	}	
 	
+}
+
+void eliminarUltOcurr(lista **p, int x) {
+	lista *aux = *p, *ocurr=NULL;
+	if(aux!=NULL){//verfico que no sea una lista vacia
+		
+		if(aux->valor == x) {//verifico si el valor esta en el primer nodo
+			ocurr = aux; 
+		} else {
+
+			//recorre la lista hasta el penultimo nodo
+			while(aux->sig!=NULL) {
+				
+				//deja el puntero aux en el nodo anterior de la ocurrencia del valor
+				while((aux->sig!=NULL)&& (aux->sig->valor != x)) 
+					aux = aux->sig;
+				
+				if(aux -> sig != NULL) {
+					ocurr = aux; //guardo el nodo antes de la ocurrencia del valor en ocurr
+					aux= aux ->sig; //sigo recorriendo la lista
+				}
+			}
+
+		}
+
+		
+		if(ocurr!=NULL){
+			if(ocurr==*p) { //si la ocurrencia se encuentra en el primer nodo
+				*p=(*p)->sig;
+				free(ocurr);
+			} else {
+				lista *t = ocurr->sig;
+				ocurr->sig = t->sig;
+				free(t);
+			}
+		}
+
+	} 
 }
 void main () {
     int op = -1, x=0;
@@ -228,7 +271,8 @@ void main () {
 		printf( "3.\tMostrar lista\n ");
 		printf( "4.\tMostrar numeros al reves y hacer suma de los digitos\n ");
 		printf( "5.\tEliminar numeros primos de la lista\n ");
-		printf( "6.\tDejar los pares al final de la lista\n\n");
+		printf( "6.\tDejar los pares al final de la lista\n ");
+		printf( "7.\tEliminar ultima ocurrencia de dato\n\n");
 		printf( "0.\tSALIR del sistema\n\n ");
 		
 		scanf("%i", &op);
@@ -249,6 +293,10 @@ void main () {
 		case 5: eliminarPrimos(&p);
 				break;
 		case 6: paresAlFinal(&p);
+				break;
+		case 7: printf("\n\nIndique dato a Eliminar ");
+		        scanf( "%i", &x);
+				eliminarUltOcurr(&p, x);
 				break;
         }
     }	
