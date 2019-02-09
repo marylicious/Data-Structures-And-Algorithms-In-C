@@ -153,7 +153,7 @@ void paresAlFinal(lista **cab) {
 	
 	lista *impar = *cab;
 	lista *par = *cab;
-	lista *sigPar, *sigImpar,*ultImpar, *primerPar=NULL;
+	lista *sigPar, *sigImpar,*ultImpar, *ultPar=NULL, *primerPar=NULL;
 	int cont = 0;
 
 	//condicion verifica que hallan nodos
@@ -207,8 +207,10 @@ void paresAlFinal(lista **cab) {
 				ultImpar = impar;
 			}
 
-			if(par!= NULL)
+			if(par!= NULL){
 				par -> sig = sigPar;
+				ultPar=par;
+			}
 
 			//reinicio los nodos par e impar para poder hacer bucle
 			impar = sigImpar;
@@ -216,7 +218,8 @@ void paresAlFinal(lista **cab) {
 			cont++;
 		} 
 		
-		ultImpar->sig = primerPar;  //uno los punteros impares con pares
+		ultImpar->sig = primerPar;//uno los punteros impares con pares
+		ultPar->sig = NULL;  
 		
 		
 	}	
