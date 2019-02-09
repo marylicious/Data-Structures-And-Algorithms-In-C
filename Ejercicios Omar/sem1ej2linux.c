@@ -286,6 +286,34 @@ void insertarLuegoDeValor(lista **p, int x, int y){
 	}
 }
 
+void insertarOrdenadamente (lista **p, int x) {
+	lista *nuevo_nodo = malloc(sizeof(lista));
+	nuevo_nodo -> valor = x;
+	nuevo_nodo->sig = NULL;
+
+	lista *aux = *p;
+	
+	if(aux == NULL) {//caso de la lista vacia
+		*p= nuevo_nodo;
+	} else {
+		//caso de que el primer numero de la lista sea el mayor
+		if(aux -> valor > x) {
+			nuevo_nodo->sig = aux;
+			*p=nuevo_nodo;
+		} else {
+			//caso en el que el numero se deba colocar en el medio  o al final
+			while((aux->sig != NULL) && (aux->sig->valor < x))
+				aux=aux->sig;
+			
+			if(aux->sig!=NULL){
+				nuevo_nodo->sig = aux->sig;
+			}
+
+			aux->sig = nuevo_nodo; 
+		}
+	}
+}
+
 void main () {
     int op = -1, x=0, y=0;
 	lista *p=NULL;
@@ -299,7 +327,8 @@ void main () {
 		printf( "5.\tEliminar numeros primos de la lista\n ");
 		printf( "6.\tDejar los pares al final de la lista\n ");
 		printf( "7.\tEliminar ultima ocurrencia de dato\n ");
-		printf( "8.\tInsertar luego de un valor dado\n\n");
+		printf( "8.\tInsertar luego de un valor dado\n ");
+		printf( "9.\tInsertar ordenadamente (menor a mayor)\n\n");
 		printf( "0.\tSALIR del sistema\n\n ");
 		
 		scanf("%i", &op);
@@ -330,8 +359,11 @@ void main () {
 				printf("\n\nIndique valor de nodo previo al dato");
 				scanf( "%i", &y);
 		        insertarLuegoDeValor(&p, x, y);
-
 		        break;
+		case 9: printf("\n\nIndique dato a Insertar ");
+		        scanf( "%i", &x);
+				insertarOrdenadamente(&p,x);
+				break;
         }
     }	
     
