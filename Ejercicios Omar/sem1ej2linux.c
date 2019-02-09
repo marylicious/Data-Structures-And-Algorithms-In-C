@@ -337,6 +337,28 @@ void insertarFinalSinRepetidos(lista **p, int x) {
 }
 
 void eliminarTodasOcurr(lista **p, int x){
+	lista *aux = *p;
+	if(aux){
+		
+		if(aux->valor == x){
+			lista *nodo_a_eliminar = *p;
+			*p = (*p)->sig;
+			free(nodo_a_eliminar);
+		}
+
+		while(aux->sig){
+			
+			while((aux->sig)&& (aux->sig->valor!=x))
+				aux=aux->sig;
+			
+			if(aux->sig){
+				lista *nodo_a_eliminar = aux->sig;
+				aux->sig = aux->sig->sig;
+				free(nodo_a_eliminar);
+			}
+
+		}
+	}
 
 }
 
@@ -395,6 +417,7 @@ void main () {
 		case 10:printf("\n\nIndique dato a Eliminar ");
 		        scanf( "%i", &x);
 				eliminarTodasOcurr(&p, x);
+				break;
 		case 11: printf("\n\nIndique dato a Insertar ");
 		        scanf( "%i", &x);
 				insertarFinalSinRepetidos(&p,x);
