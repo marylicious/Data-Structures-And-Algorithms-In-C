@@ -226,29 +226,26 @@ void paresAlFinal(lista **cab) {
 	
 }
 
-void eliminarUltOcurr(lista **p, int x) {
+void eliminarUltOcurr(lista **p, int x) {  //REVISAR
 	lista *aux = *p, *ocurr=NULL;
 	if(aux!=NULL){//verfico que no sea una lista vacia
 		
 		if(aux->valor == x) {//verifico si el valor esta en el primer nodo
 			ocurr = aux; 
-		} else {
+		} 
 
-			//recorre la lista hasta el penultimo nodo
-			while(aux->sig!=NULL) {
+		//recorre la lista hasta el ultimo nodo
+		while(aux->sig!=NULL) {
 				
-				//deja el puntero aux en el nodo anterior de la ocurrencia del valor
-				while((aux->sig!=NULL)&& (aux->sig->valor != x)) 
+			//deja el puntero aux en el puntero anterior de la ocurrencia del valor
+			while((aux->sig!=NULL)&& (aux->sig->valor != x)) 
 					aux = aux->sig;
-				
-				if(aux -> sig != NULL) {
+					
+			if(aux -> sig != NULL) {
 					ocurr = aux; //guardo el nodo antes de la ocurrencia del valor en ocurr
 					aux= aux ->sig; //sigo recorriendo la lista
 				}
-			}
-
 		}
-
 		
 		if(ocurr!=NULL){
 			if(ocurr==*p) { //si la ocurrencia se encuentra en el primer nodo
@@ -317,6 +314,32 @@ void insertarOrdenadamente (lista **p, int x) {
 	}
 }
 
+void insertarFinalSinRepetidos(lista **p, int x) {
+	
+	lista *nuevo_nodo= malloc(sizeof(lista)), *aux=*p;
+	nuevo_nodo -> valor = x;
+	nuevo_nodo ->sig = NULL;
+	
+	if(!aux){
+		*p = nuevo_nodo;
+	} else {
+		
+		if(aux->valor != x){
+			while((aux->sig) && (aux->valor != x))
+				aux=aux->sig;
+			
+			if((!aux->sig) && (aux->valor!=x)){ //se salio porque no consiguio valor
+				aux->sig = nuevo_nodo;
+			}
+		}
+		 
+	}
+}
+
+void eliminarTodasOcurr(lista **p, int x){
+
+}
+
 void main () {
     int op = -1, x=0, y=0;
 	lista *p=NULL;
@@ -325,13 +348,15 @@ void main () {
 		printf( "\n\n\t\tMENU DE MANEJO DE LISTAS n\n ");
 		printf( "1.\tInsertar por comienzo de lista\n ");
 		printf( "2.\tEliminar dato\n ");
-		printf( "3.\tMostrar lista\n ");
+		printf( "3.\tMostrar lista P\n ");
 		printf( "4.\tMostrar numeros al reves y hacer suma de los digitos\n ");
 		printf( "5.\tEliminar numeros primos de la lista\n ");
 		printf( "6.\tDejar los pares al final de la lista\n ");
 		printf( "7.\tEliminar ultima ocurrencia de dato\n ");
 		printf( "8.\tInsertar luego de un valor dado\n ");
-		printf( "9.\tInsertar ordenadamente (menor a mayor)\n\n");
+		printf( "9.\tInsertar ordenadamente (menor a mayor)\n ");
+		printf( "10.\tEliminar un elemento dado todas las veces que lo encuentre\n ");
+		printf( "11.\tInsertar al final de la lista sin permitir repetidos\n\n");
 		printf( "0.\tSALIR del sistema\n\n ");
 		
 		scanf("%i", &op);
@@ -366,6 +391,13 @@ void main () {
 		case 9: printf("\n\nIndique dato a Insertar ");
 		        scanf( "%i", &x);
 				insertarOrdenadamente(&p,x);
+				break;
+		case 10:printf("\n\nIndique dato a Eliminar ");
+		        scanf( "%i", &x);
+				eliminarTodasOcurr(&p, x);
+		case 11: printf("\n\nIndique dato a Insertar ");
+		        scanf( "%i", &x);
+				insertarFinalSinRepetidos(&p,x);
 				break;
         }
     }	
