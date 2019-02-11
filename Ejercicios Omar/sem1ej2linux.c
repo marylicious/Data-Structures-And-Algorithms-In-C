@@ -226,7 +226,7 @@ void paresAlFinal(lista **cab) {
 	
 }
 
-void eliminarUltOcurr(lista **p, int x) {  //REVISAR
+void eliminarUltOcurr(lista **p, int x) {  
 	lista *aux = *p, *ocurr=NULL;
 	if(aux!=NULL){//verfico que no sea una lista vacia
 		
@@ -362,6 +362,27 @@ void eliminarTodasOcurr(lista **p, int x){
 
 }
 
+void eliminarRepetidos(lista **p){
+	lista *aux=*p, *recorrido=*p;
+	int num;
+	while(recorrido){
+		num=recorrido->valor;
+		aux=recorrido;
+
+		while(aux->sig) {
+			while((aux->sig) && (aux->sig->valor != num))
+				aux=aux->sig;
+			
+			if(aux->sig){
+				lista *t = aux->sig;
+				aux->sig = aux->sig->sig;
+				free(t);
+			}
+		}
+		recorrido = recorrido->sig;
+	}
+}
+
 void main () {
     int op = -1, x=0, y=0;
 	lista *p=NULL;
@@ -378,7 +399,8 @@ void main () {
 		printf( "8.\tInsertar luego de un valor dado\n ");
 		printf( "9.\tInsertar ordenadamente (menor a mayor)\n ");
 		printf( "10.\tEliminar un elemento dado todas las veces que lo encuentre\n ");
-		printf( "11.\tInsertar al final de la lista sin permitir repetidos\n\n");
+		printf( "11.\tEliminar numeros repetidos dejando la primera ocurrencia\n ");
+		printf( "12.\tInsertar al final de la lista sin permitir repetidos\n\n");
 		printf( "0.\tSALIR del sistema\n\n ");
 		
 		scanf("%i", &op);
@@ -418,7 +440,9 @@ void main () {
 		        scanf( "%i", &x);
 				eliminarTodasOcurr(&p, x);
 				break;
-		case 11: printf("\n\nIndique dato a Insertar ");
+		case 11:eliminarRepetidos(&p);
+				break;
+		case 12: printf("\n\nIndique dato a Insertar ");
 		        scanf( "%i", &x);
 				insertarFinalSinRepetidos(&p,x);
 				break;
