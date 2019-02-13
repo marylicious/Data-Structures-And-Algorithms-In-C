@@ -424,7 +424,8 @@ int chequearSiListaSimetrica(lista *p) {
 			
 		}
 
-		mitad = cont/2;
+		if (cont<=2) mitad=0;
+		else mitad = cont/2;
 
 		medio = p;
 
@@ -464,6 +465,40 @@ int chequearSiListaSimetrica(lista *p) {
 
 } 
 
+lista *BuscarNodo(lista *p, int res){
+	
+	if(p)
+		if(p->valor %2 == res)
+			return p;
+		else
+			return BuscarNodo(p->sig,res);
+	return NULL;
+}
+
+void swap(int *A, int *B) {
+	int aux = *A;
+	*A=*B;
+	*B=aux;
+}
+
+void ParImpar(lista *p){
+	lista *aux=p, *nodo=NULL;
+	int cont=0;
+
+	while(aux){
+		if((cont%2)!= ((aux->valor)%2)){
+			nodo = NULL;
+			nodo = BuscarNodo(aux, (cont%2));
+
+			if(nodo)
+				swap(&aux->valor, &nodo->valor);
+			else
+				return;
+		}
+		aux=aux->sig;
+		cont++;
+	}
+}
 void main () {
     int op = -1, x=0, y=0;
 	lista *p=NULL;
@@ -482,8 +517,9 @@ void main () {
 		printf( "10.\tEliminar un elemento dado todas las veces que lo encuentre\n ");
 		printf( "11.\tEliminar numeros repetidos dejando la primera ocurrencia\n ");
 		printf( "12.\tEliminar numeros repetidos dejando la ultima ocurrencia(buggeado)\n ");
-		printf( "13.\tChequear si la lista es simetrica(+ de 3 elementos)\n ");
-		printf( "14.\tInsertar al final de la lista sin permitir repetidos\n\n");
+		printf( "13.\tChequear si la lista es simetrica\n ");
+		printf( "14.\tPar e impar mientras sea posible\n ");
+		printf( "15.\tInsertar al final de la lista sin permitir repetidos\n\n");
 		printf( "0.\tSALIR del sistema\n\n ");
 		
 		scanf("%i", &op);
@@ -529,7 +565,9 @@ void main () {
 				break;
 		case 13:chequearSiListaSimetrica(p);
 				break;
-		case 14: printf("\n\nIndique dato a Insertar ");
+		case 14:ParImpar(p);
+				break;
+		case 15: printf("\n\nIndique dato a Insertar ");
 		        scanf( "%i", &x);
 				insertarFinalSinRepetidos(&p,x);
 				break;
