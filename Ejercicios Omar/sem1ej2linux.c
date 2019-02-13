@@ -338,28 +338,24 @@ void insertarFinalSinRepetidos(lista **p, int x) {
 
 void eliminarTodasOcurr(lista **p, int x){
 	lista *aux = *p;
-	if(aux){
+	
 		
-		if(aux->valor == x){
-			lista *nodo_a_eliminar = *p;
-			*p = (*p)->sig;
-			free(nodo_a_eliminar);
+		while(aux && aux->sig){
+			
+			if(aux->sig->valor == x){
+				lista *nodo_a_eliminar = aux->sig;
+				aux->sig = aux->sig ->sig;
+				free(nodo_a_eliminar);
+			} else aux=aux->sig;
+
 		}
 
-		while(aux->sig){
-			
-			while((aux->sig)&& (aux->sig->valor!=x))
-				aux=aux->sig;
-			
-			if(aux->sig){
-				lista *nodo_a_eliminar = aux->sig;
-				aux->sig = aux->sig->sig;
+		if (*p)
+			if((*p)->valor == x){
+				lista *nodo_a_eliminar = *p;
+				*p = (*p)->sig;
 				free(nodo_a_eliminar);
 			}
-
-		}
-	}
-
 }
 
 void eliminarRepetidos(lista **p){
@@ -383,6 +379,91 @@ void eliminarRepetidos(lista **p){
 	}
 }
 
+
+//buggeado
+void eliminarRepetidosUltOcurr(lista **p){
+  
+  lista *previo = NULL, *recorrido=*p, *aux;
+  int num;
+
+  while(recorrido && recorrido->sig) {
+	  
+	  num = recorrido ->valor;
+	  aux = recorrido;
+	  previo = recorrido;
+
+	  printf("recorrido->valor %i",recorrido->valor);
+	  
+	  while (aux && aux->sig) {
+		  
+		  if(aux->sig->valor == num) {
+
+			lista *eliminar = previo;
+ 			previo->sig = previo->sig->sig;
+
+					previo = aux;
+					
+					free(eliminar); 
+					  
+			  
+		  } else aux=aux->sig;
+	  }
+
+	  recorrido =recorrido->sig;
+  }
+
+}
+
+int chequearSiListaSimetrica(lista *p) {
+	lista *aux=p, *medio, *m, *t, *izq, *der; int cont=0, i, mitad;
+	if(p) {
+		//cuento los nodos en la lista
+		while(aux){
+			aux=aux->sig;
+			cont++;
+			
+		}
+
+		mitad = cont/2;
+
+		medio = p;
+
+		for(i=0; i<mitad; i++){
+			medio=medio->sig;
+		}
+
+	
+		m= medio ->sig;
+
+		while(m && m->sig) {
+			t= m->sig;
+			m->sig = t->sig;
+			t->sig = medio->sig;
+			medio->sig = t;
+		}
+
+		izq =p;
+		der = medio ->sig;
+				
+
+		while(der) {
+			
+
+			if((izq->valor) == (der->valor)) {
+				izq=izq->sig;
+				der=der->sig;
+			} else {
+				printf("False\n");
+				return 0;
+			}
+			
+		}
+
+		if(!der) {	printf("True\n"); return 1;}
+	}
+
+} 
+
 void main () {
     int op = -1, x=0, y=0;
 	lista *p=NULL;
@@ -400,7 +481,9 @@ void main () {
 		printf( "9.\tInsertar ordenadamente (menor a mayor)\n ");
 		printf( "10.\tEliminar un elemento dado todas las veces que lo encuentre\n ");
 		printf( "11.\tEliminar numeros repetidos dejando la primera ocurrencia\n ");
-		printf( "12.\tInsertar al final de la lista sin permitir repetidos\n\n");
+		printf( "12.\tEliminar numeros repetidos dejando la ultima ocurrencia(buggeado)\n ");
+		printf( "13.\tChequear si la lista es simetrica(+ de 3 elementos)\n ");
+		printf( "14.\tInsertar al final de la lista sin permitir repetidos\n\n");
 		printf( "0.\tSALIR del sistema\n\n ");
 		
 		scanf("%i", &op);
@@ -442,7 +525,11 @@ void main () {
 				break;
 		case 11:eliminarRepetidos(&p);
 				break;
-		case 12: printf("\n\nIndique dato a Insertar ");
+		case 12:eliminarRepetidosUltOcurr(&p);
+				break;
+		case 13:chequearSiListaSimetrica(p);
+				break;
+		case 14: printf("\n\nIndique dato a Insertar ");
 		        scanf( "%i", &x);
 				insertarFinalSinRepetidos(&p,x);
 				break;

@@ -14,8 +14,8 @@ void main () {
 	while ( op ){
         scanf("%i", &op);
         printf( "\n\n\t\tMENU DE MANEJO DE LISTAS n\n ");
-		printf( "x.\t\n Insertar al final de la lista sin permitir repetidos\n ");
-        printf( "x.\t\n Eliminar numeros repetidos dejando la primera ocurrencia\n ");
+		// DONE printf( "x.\t\n Insertar al final de la lista sin permitir repetidos\n ");
+       //DONE  printf( "x.\t\n Eliminar numeros repetidos dejando la primera ocurrencia\n ");
         printf( "x.\t\n Eliminar numeros repetidos dejando la ultima ocurrencia\n ");
         printf( "x.\t\n Dejar un elemento impar y uno par mientras sea posible\n ");
         printf( "x.\t\n Determinar si la lista es simetrica\n ");
