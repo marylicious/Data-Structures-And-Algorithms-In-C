@@ -70,6 +70,65 @@ void intercalarCasillas(lista **cabb, lista **caba){
 	}
 }
 
+
+void parImpar(lista **ca, lista **cb){
+	
+	//Enlazo pares de A en B
+
+	lista *auxB=*cb, *auxA = *ca;
+
+
+	while(auxB && auxB->sig) auxB=auxB->sig;
+
+	//Enlazo pares del cuerpo de A
+
+	while(auxA && auxA->sig) {
+
+		if((auxA->sig->valor) % 2 == 0) {
+			auxB->sig = auxA->sig;
+			auxA->sig = auxA->sig->sig;
+			auxB->sig->sig=NULL;
+			auxB= auxB->sig;
+		}
+		else {
+			auxA=auxA->sig;
+		}
+	}
+
+	//Enlazo cabeza de A si es par 
+
+	if((*ca)->valor%2== 0){
+		auxB->sig= *ca;
+		*ca = (*ca)->sig;
+		auxB->sig->sig= NULL;
+	}
+
+	//Enlazo impares de B al final de A
+
+	auxB=*cb; auxA=*ca;
+
+	while(auxA && auxA->sig) auxA=auxA->sig;
+
+	while(auxB && auxB->sig) {
+
+		if((auxB->sig->valor) % 2 != 0) {
+			auxA->sig = auxB->sig;
+			auxB->sig = auxB->sig->sig;
+			auxA->sig->sig=NULL;
+			auxA= auxA->sig;
+		}
+		else {
+			auxB=auxB->sig;
+		}
+	}
+
+	if((*cb)->valor%2!= 0){
+		auxA->sig= *cb;
+		*cb = (*cb)->sig;
+		auxA->sig->sig= NULL;
+	}
+}
+
 void main () {
     int op = -1, x=0, y=0;
 	lista *a=NULL, *b=NULL;
@@ -83,6 +142,7 @@ void main () {
         printf( "5.\tMostrar lista a\n\n");
         printf( "6.\tMostrar lista b\n\n");
 		printf( "7.\tIntercalar listas\n\n");
+		printf( "8.\tDejar pares en A e impares en B\n\n");
 		printf( "0.\tSALIR del sistema\n\n ");
         scanf("%i", &op);
 		
@@ -111,6 +171,8 @@ void main () {
 		        break;
 		case 7: intercalarCasillas(&b,&a);
 		        break;
+		case 8: parImpar(&a,&b);
+				break;
         }
     }
 }
