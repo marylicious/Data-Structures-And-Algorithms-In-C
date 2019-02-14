@@ -499,6 +499,28 @@ void ParImpar(lista *p){
 		cont++;
 	}
 }
+
+
+void separarDigitos(lista *p) {
+	lista *aux=p; int num, digito;
+
+	while(aux){
+		num= aux->valor;
+		while(num>9){
+			lista *t= malloc(sizeof(lista));
+			digito= num%10;
+			num=num/10;
+			t->valor = digito;
+			t->sig = aux->sig;
+			aux->sig = t;
+			aux->valor=num;
+		}
+
+		aux=aux->sig;
+	}
+}
+
+
 void main () {
     int op = -1, x=0, y=0;
 	lista *p=NULL;
@@ -519,7 +541,8 @@ void main () {
 		printf( "12.\tEliminar numeros repetidos dejando la ultima ocurrencia(buggeado)\n ");
 		printf( "13.\tChequear si la lista es simetrica\n ");
 		printf( "14.\tPar e impar mientras sea posible\n ");
-		printf( "15.\tInsertar al final de la lista sin permitir repetidos\n\n");
+		printf( "15.\tInsertar al final de la lista sin permitir repetidos\n ");
+		printf( "16.\tSeparar digitos de la lista\n ");
 		printf( "0.\tSALIR del sistema\n\n ");
 		
 		scanf("%i", &op);
@@ -571,6 +594,9 @@ void main () {
 		        scanf( "%i", &x);
 				insertarFinalSinRepetidos(&p,x);
 				break;
+		case 16:separarDigitos(p);
+				break;
+	
         }
     }	
     

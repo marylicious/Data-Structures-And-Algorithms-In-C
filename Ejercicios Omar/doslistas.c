@@ -129,20 +129,97 @@ void parImpar(lista **ca, lista **cb){
 	}
 }
 
+void eliminarComunes(lista **ca, lista **cb){
+	
+	lista *auxA,*auxB, *recorrido=*ca;
+	int num,repetido;
+
+	while(recorrido){
+
+		repetido = 0;
+		num = recorrido->valor;
+		auxB = *cb;
+
+		while(auxB && auxB->sig){
+			
+			if(auxB->sig->valor == num) {
+				lista *eliminar = auxB->sig;
+				auxB->sig = auxB->sig->sig;
+				free(eliminar);
+				repetido=1;
+			} else {
+				auxB=auxB->sig;
+			}
+		}
+
+
+		if((*cb)->valor == num){
+			lista *eliminar = *cb;
+			*cb= (*cb)->sig;
+			free(eliminar);
+			repetido=1;
+		}
+
+		if(repetido){
+
+			auxA=*ca;
+			//elimino posibles repeticiones en A
+			while(auxA && auxA->sig) {
+			
+				if(auxA->sig->valor == num) {
+					lista *eliminar = auxA->sig;
+					auxA->sig = auxA->sig->sig;
+					free(eliminar);
+				} else {
+				auxA=auxA->sig;
+				}
+			}
+
+			if((*ca)->valor == num){
+				lista *eliminar = *ca;
+				*ca= (*ca)->sig;
+				free(eliminar);
+			}
+		}
+
+		recorrido=recorrido->sig;
+	}
+}
+
+void separarDigitos(lista *p) {
+	lista *aux=p; int num, digito;
+
+	while(aux){
+		num= aux->valor;
+		while(num>=9){
+			lista *t= malloc(sizeof(lista));
+			digito= num%10;
+			t->valor = digito;
+			t->sig = aux->sig;
+			aux->sig = t->sig;
+			num=num/10;
+			aux->valor=num;
+		}
+
+		aux=aux->sig;
+	}
+}
+
 void main () {
     int op = -1, x=0, y=0;
 	lista *a=NULL, *b=NULL;
 	while ( op ){
         
         printf( "\n\n\t\tMENU DE MANEJO DE LISTAS n\n");
-        printf( "1.\tInsertar numero en lista a\n\n");
-        printf( "2.\tInsertar numero en lista b\n\n");
-        printf( "3.\tEliminar numero en lista a\n\n");
-        printf( "4.\tEliminar numero en lista b\n\n");
-        printf( "5.\tMostrar lista a\n\n");
-        printf( "6.\tMostrar lista b\n\n");
-		printf( "7.\tIntercalar listas\n\n");
-		printf( "8.\tDejar pares en A e impares en B\n\n");
+        printf( "1.\tInsertar numero en lista a\n");
+        printf( "2.\tInsertar numero en lista b\n");
+        printf( "3.\tEliminar numero en lista a\n");
+        printf( "4.\tEliminar numero en lista b\n");
+        printf( "5.\tMostrar lista a\n");
+        printf( "6.\tMostrar lista b\n");
+		printf( "7.\tIntercalar listas\n");
+		printf( "8.\tDejar pares en A e impares en B(buggeado)\n");
+		printf( "9.\tEliminar numeros comunes\n");
 		printf( "0.\tSALIR del sistema\n\n ");
         scanf("%i", &op);
 		
@@ -172,6 +249,8 @@ void main () {
 		case 7: intercalarCasillas(&b,&a);
 		        break;
 		case 8: parImpar(&a,&b);
+				break;
+		case 9: eliminarComunes(&a,&b);
 				break;
         }
     }
