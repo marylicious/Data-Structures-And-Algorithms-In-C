@@ -383,35 +383,52 @@ void eliminarRepetidos(lista **p){
 //buggeado
 void eliminarRepetidosUltOcurr(lista **p){
   
-  lista *previo = NULL, *recorrido=*p, *aux;
+  lista *recorrido = *p, *aux, *ultimo = NULL;
   int num;
 
-  while(recorrido && recorrido->sig) {
-	  
-	  num = recorrido ->valor;
-	  aux = recorrido;
-	  previo = recorrido;
+	while(recorrido) {
+		
+		num = recorrido ->valor;
+		aux = *p;
 
-	  printf("recorrido->valor %i",recorrido->valor);
-	  
-	  while (aux && aux->sig) {
-		  
-		  if(aux->sig->valor == num) {
+		//Busco repetidos y guardo la ultima recurrencia en un puntero
+		while(aux) {
+			
+			if(aux->valor == num && aux != recorrido){
+				ultimo=aux;
+			}
+			aux=aux->sig;
+		}
 
-			lista *eliminar = previo;
- 			previo->sig = previo->sig->sig;
+		//elimino quien no sea el ultimo
+		if(ultimo) {
+			
+			aux = *p;
+			
+			while(aux && aux->sig){
+				
+				if(aux->sig->valor== num && aux->sig != ultimo){
+					lista *t=aux->sig;
+					aux->sig=aux->sig->sig;
+					free(t);
+				} else {
+					aux=aux->sig;
+				}
+			}
 
-					previo = aux;
-					
-					free(eliminar); 
-					  
-			  
-		  } else aux=aux->sig;
-	  }
+			if((*p)->valor == num && (*p)!=ultimo){
+				lista *t= *p;
+				*p= (*p)->sig;
+				free(t);
+			}
 
-	  recorrido =recorrido->sig;
-  }
+			//reiniciamos ultimo
+			ultimo= NULL;
+		} 
 
+		recorrido=recorrido->sig;
+
+	}
 }
 
 int chequearSiListaSimetrica(lista *p) {
@@ -501,6 +518,8 @@ void ParImpar(lista *p){
 }
 
 
+
+
 void separarDigitos(lista *p) {
 	lista *aux=p; int num, digito;
 
@@ -538,7 +557,7 @@ void main () {
 		printf( "9.\tInsertar ordenadamente (menor a mayor)\n ");
 		printf( "10.\tEliminar un elemento dado todas las veces que lo encuentre\n ");
 		printf( "11.\tEliminar numeros repetidos dejando la primera ocurrencia\n ");
-		printf( "12.\tEliminar numeros repetidos dejando la ultima ocurrencia(buggeado)\n ");
+		printf( "12.\tEliminar numeros repetidos dejando la ultima ocurrencia\n ");
 		printf( "13.\tChequear si la lista es simetrica\n ");
 		printf( "14.\tPar e impar mientras sea posible\n ");
 		printf( "15.\tInsertar al final de la lista sin permitir repetidos\n ");

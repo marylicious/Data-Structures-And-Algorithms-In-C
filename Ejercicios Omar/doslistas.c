@@ -152,7 +152,7 @@ void eliminarComunes(lista **ca, lista **cb){
 			}
 		}
 
-
+	//revisar
 		if((*cb)->valor == num){
 			lista *eliminar = *cb;
 			*cb= (*cb)->sig;
@@ -186,24 +186,6 @@ void eliminarComunes(lista **ca, lista **cb){
 	}
 }
 
-void separarDigitos(lista *p) {
-	lista *aux=p; int num, digito;
-
-	while(aux){
-		num= aux->valor;
-		while(num>=9){
-			lista *t= malloc(sizeof(lista));
-			digito= num%10;
-			t->valor = digito;
-			t->sig = aux->sig;
-			aux->sig = t->sig;
-			num=num/10;
-			aux->valor=num;
-		}
-
-		aux=aux->sig;
-	}
-}
 
 void main () {
     int op = -1, x=0, y=0;
