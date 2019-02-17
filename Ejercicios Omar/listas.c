@@ -636,6 +636,49 @@ void finalDeListaSumaImpar(lista **p){
 	}
 }
 
+void eliminarCasPosMultiplo(lista *p,int n){
+	int pos=1; lista *aux=p;
+
+	if(aux && n>=2){
+		
+		while(aux && aux->sig){
+			pos++;
+
+			if(pos%n==0){
+				lista *t=aux->sig;
+				aux->sig=aux->sig->sig;
+				free(t);
+			} else aux=aux->sig;
+		}
+	}
+}
+
+
+void moverUltCasillas(lista **p, int n){
+	lista *final=*p, *cab, *aux; int cont=0;
+
+	if(p){
+		while(final && final->sig) final=final->sig;
+
+		while (final!=*p && cont<n){
+
+			aux=*p;
+			while(aux->sig!=final) aux=aux->sig;
+			final=aux;
+			cont++;
+		}
+
+		if(cont>=n){
+			cab=*p;
+			*p=final->sig;
+			final->sig= NULL;
+			aux=*p;
+			while(aux && aux->sig) aux=aux->sig;
+			aux->sig=cab;
+		}
+	}
+}
+
 
 void main () {
     int op = -1, x=0, y=0;
@@ -661,6 +704,8 @@ void main () {
 		printf( "16.\tSeparar digitos de la lista\n ");
 		printf( "17.\tVoltear una lista (intercambiando valores y no punteros)\n ");
 		printf( "18.\tDeje al final de la lista los numeros cuyos digitos suman impar\n ");
+		printf( "19.\tEliminar las casillas en posicion multiplo de N (N>=2)\n ");
+		printf( "20.\t mover las n ultimas casillas al comienzo de la lista en su mismo orden\n ");
 		
 		printf( "0.\tSALIR del sistema\n\n ");
 		
@@ -718,6 +763,14 @@ void main () {
 		case 17: voltearLista(p);
 				break;
 		case 18:finalDeListaSumaImpar(&p);
+				break;
+		case 19: printf("\n\nIndique valor de n =>");
+		        scanf( "%i", &x);
+				eliminarCasPosMultiplo(p,x);
+				break;
+		case 20:printf("\n\nIndique valor de n =>");
+		        scanf( "%i", &x); 
+				moverUltCasillas(&p,x);
 				break;
 	
         }
