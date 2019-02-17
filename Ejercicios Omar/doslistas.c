@@ -39,7 +39,8 @@ void mostrar ( lista *cab){
 	/* muestra por pantalla la lista enlazada */
 	lista *t = cab;
 	//agregar system("cls"); 
-	printf( "\n\nMostrar lista\n\n  Cab ");
+
+	printf( " Cab ");
 	while (t){
 		printf("->[%i]", t->valor);
 		t= t->sig;
@@ -152,7 +153,7 @@ void eliminarComunes(lista **ca, lista **cb){
 			}
 		}
 
-	//revisar
+
 		if((*cb)->valor == num){
 			lista *eliminar = *cb;
 			*cb= (*cb)->sig;
@@ -186,6 +187,58 @@ void eliminarComunes(lista **ca, lista **cb){
 	}
 }
 
+void mezclarAB(lista **cabA, lista **cabB){
+
+	lista *auxA=*cabA, *auxB, *finalB=*cabB;
+
+	if(*cabB){
+		while(finalB&&finalB->sig) finalB=finalB->sig;
+	}
+	
+
+	if(!(*cabA) && *cabB){
+		
+		if(finalB!=*cabB){
+				auxB=*cabB;
+				while(finalB!=auxB->sig) auxB=auxB->sig;
+		}
+
+		*cabA=finalB;
+
+		if(auxB) auxB->sig = NULL;
+	}
+
+	if(*cabA){
+
+		
+
+		while(*cabB){
+			
+			if(finalB!=*cabB){
+				auxB=*cabB;
+				while(finalB!=auxB->sig) auxB=auxB->sig;
+			}
+
+			finalB->sig = auxA->sig;
+			auxA->sig = finalB;
+
+			
+			if(finalB!=*cabB){
+				auxB->sig=NULL;
+				finalB=auxB;
+			} else {*cabB=NULL;}
+
+			auxA = auxA->sig->sig;
+			
+			if(!auxA){
+				auxA=*cabA;
+				while(auxA&&auxA->sig) auxA=auxA->sig;
+			}
+
+		}
+	}
+}
+
 
 void main () {
     int op = -1, x=0, y=0;
@@ -197,11 +250,13 @@ void main () {
         printf( "2.\tInsertar numero en lista b\n");
         printf( "3.\tEliminar numero en lista a\n");
         printf( "4.\tEliminar numero en lista b\n");
-        printf( "5.\tMostrar lista a\n");
+        /*printf( "5.\tMostrar lista a\n");
         printf( "6.\tMostrar lista b\n");
 		printf( "7.\tIntercalar listas\n");
-		printf( "8.\tDejar pares en A e impares en B(buggeado)\n");
-		printf( "9.\tEliminar numeros comunes\n");
+		printf( "8.\tDejar pares en A e impares en B(problema borde)\n");
+		printf( "9.\tEliminar numeros comunes\n");*/
+		printf( "10.\tMezclar A con B(pero B desde atras) sin voltear B ni estructuras auxiliares\n");
+		printf( "11.\tMostrar listas b\n");
 		printf( "0.\tSALIR del sistema\n\n ");
         scanf("%i", &op);
 		
@@ -233,6 +288,13 @@ void main () {
 		case 8: parImpar(&a,&b);
 				break;
 		case 9: eliminarComunes(&a,&b);
+				break;
+		case 10: mezclarAB(&a,&b);
+				break;
+		case 11: printf("Lista a es => ");
+		        mostrar(a);
+				printf("Lista b es => ");
+		        mostrar(b);
 				break;
         }
     }

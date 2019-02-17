@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define true 1 //eliminar
-#define false 0 //eliminar
+#define true 1 
+#define false 0 
 
 typedef struct lista {
     int valor;
     struct lista *sig;
-} lista; //eliminar typedef
+} lista; 
 
 //FUNCIONES AUXILIAREs
 
@@ -72,7 +72,7 @@ void mostrar ( lista *cab){
 	/* muestra por pantalla la lista enlazada */
 	lista *t = cab;
 	//agregar system("cls"); 
-	printf( "\n\nMostrar lista\n\n  Cab ");
+	printf( " Cab ");
 	while (t){
 		printf("->[%i]", t->valor);
 		t= t->sig;
@@ -539,6 +539,45 @@ void separarDigitos(lista *p) {
 	}
 }
 
+void cambio(int *A, int *B){
+	int aux = *A;
+	*A=*B;
+	*B=aux;
+}
+
+void voltearLista(lista *p) {
+	
+	lista *auxA=p, *auxU= NULL, *final=p;
+
+	if(p) {
+
+		while(final && final->sig) final = final->sig;
+
+
+		while(auxA!=auxU && auxA->sig!= auxU){
+			
+			auxU=p;
+
+			while(final != auxU->sig) auxU=auxU->sig;
+
+			cambio(&(auxU->sig->valor), &(auxA->valor));
+
+			//caso borde de lista de dos nodos
+			if(auxA->sig==final) break;
+			
+			auxA=auxA->sig;
+			final=auxU;
+
+		}
+
+		if(auxA->sig == auxU) {
+			cambio(&(auxA->valor), &(auxU->valor));
+		}
+
+	}
+
+}
+
 
 void main () {
     int op = -1, x=0, y=0;
@@ -562,6 +601,7 @@ void main () {
 		printf( "14.\tPar e impar mientras sea posible\n ");
 		printf( "15.\tInsertar al final de la lista sin permitir repetidos\n ");
 		printf( "16.\tSeparar digitos de la lista\n ");
+		printf( "17.\tVoltear una lista (intercambiando valores y no punteros)\n ");
 		printf( "0.\tSALIR del sistema\n\n ");
 		
 		scanf("%i", &op);
@@ -614,6 +654,8 @@ void main () {
 				insertarFinalSinRepetidos(&p,x);
 				break;
 		case 16:separarDigitos(p);
+				break;
+		case 17: voltearLista(p);
 				break;
 	
         }
