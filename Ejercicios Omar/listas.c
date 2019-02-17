@@ -578,6 +578,64 @@ void voltearLista(lista *p) {
 
 }
 
+int sumaImpar(int num){
+	
+	int suma=0,dig;
+	
+	while(num>0){
+		dig=num%10;
+		suma+=dig;
+		num=num/10;
+	}
+
+	if(suma%2==0) return 0;
+	else return 1;
+}
+
+void finalDeListaSumaImpar(lista **p){
+
+	lista *aux=*p,*final=*p, *primSumImpar=NULL;
+
+	//colocar puntero final al final de la lista
+	if(p){
+		
+		while(final && final->sig) final=final->sig;
+
+		
+
+		//recorrer la lista y colocar los numeros que no sean la cabeza al final
+		while(aux && aux->sig && aux->sig!=primSumImpar){
+			
+			if(sumaImpar(aux->sig->valor)){
+				final->sig=aux->sig;
+				aux->sig=aux->sig->sig;
+				final=final->sig;
+				final->sig=NULL;
+
+				if(!primSumImpar){
+					primSumImpar=final;
+				}
+
+			} else {
+				aux=aux->sig;
+			}
+		}
+
+		//chequear la cabeza
+		if(sumaImpar((*p)->valor)){
+			aux=*p; lista *t=*p;
+			
+			while(aux && aux->sig && !sumaImpar(aux->sig->valor)) aux=aux->sig;
+
+			if(aux!=*p){
+				*p=(*p)->sig;
+				t->sig=aux->sig;
+				aux->sig=t;
+			}
+		}
+	}
+}
+
 
 void main () {
     int op = -1, x=0, y=0;
@@ -602,6 +660,8 @@ void main () {
 		printf( "15.\tInsertar al final de la lista sin permitir repetidos\n ");
 		printf( "16.\tSeparar digitos de la lista\n ");
 		printf( "17.\tVoltear una lista (intercambiando valores y no punteros)\n ");
+		printf( "18.\tDeje al final de la lista los numeros cuyos digitos suman impar\n ");
+		
 		printf( "0.\tSALIR del sistema\n\n ");
 		
 		scanf("%i", &op);
@@ -656,6 +716,8 @@ void main () {
 		case 16:separarDigitos(p);
 				break;
 		case 17: voltearLista(p);
+				break;
+		case 18:finalDeListaSumaImpar(&p);
 				break;
 	
         }
