@@ -208,9 +208,7 @@ void mezclarAB(lista **cabA, lista **cabB){
 		if(auxB) auxB->sig = NULL;
 	}
 
-	if(*cabA){
-
-		
+	if(*cabA){	
 
 		while(*cabB){
 			
@@ -239,6 +237,45 @@ void mezclarAB(lista **cabA, lista **cabB){
 	}
 }
 
+void colocarValorAenPosB(lista **A, lista **B){
+	lista *auxA=*A, *auxB=*B;
+	int num, cont;
+
+	if(*A && *B){
+		while(auxA){
+			
+			num=auxA->valor;
+			
+			if(num == 1){
+				lista *t=malloc(sizeof(lista));
+				t->valor=num;
+				t->sig=*B;
+				*B=t;
+			} else {
+				auxB=*B; cont=1;
+
+				while(auxB&& auxB->sig){
+					cont++;
+					if(cont<num){
+						auxB=auxB->sig;
+					} else break;
+				}
+
+				if(cont>=num){
+					lista *t= malloc(sizeof(lista));
+					t->valor=num;
+					t->sig=auxB->sig;
+					auxB->sig=t;		
+				}
+
+				
+			}
+
+			auxA=auxA->sig;
+		}
+	}
+}
+
 
 void main () {
     int op = -1, x=0, y=0;
@@ -246,17 +283,18 @@ void main () {
 	while ( op ){
         
         printf( "\n\n\t\tMENU DE MANEJO DE LISTAS n\n");
-        printf( "1.\tInsertar numero en lista a\n");
+        /*printf( "1.\tInsertar numero en lista a\n");
         printf( "2.\tInsertar numero en lista b\n");
         printf( "3.\tEliminar numero en lista a\n");
         printf( "4.\tEliminar numero en lista b\n");
-        /*printf( "5.\tMostrar lista a\n");
+        printf( "5.\tMostrar lista a\n");
         printf( "6.\tMostrar lista b\n");
 		printf( "7.\tIntercalar listas\n");
 		printf( "8.\tDejar pares en A e impares en B(problema borde)\n");
-		printf( "9.\tEliminar numeros comunes\n");*/
-		printf( "10.\tMezclar A con B(pero B desde atras) sin voltear B ni estructuras auxiliares\n");
+		printf( "9.\tEliminar numeros comunes\n");
+		printf( "10.\tMezclar A con B(pero B desde atras) sin voltear B ni estructuras auxiliares\n");*/
 		printf( "11.\tMostrar listas b\n");
+		printf( "12.\tInserte (mueva) cada valor de A, digamos x, en la posicion x de B \n");
 		printf( "0.\tSALIR del sistema\n\n ");
         scanf("%i", &op);
 		
@@ -295,6 +333,8 @@ void main () {
 		        mostrar(a);
 				printf("Lista b es => ");
 		        mostrar(b);
+				break;
+		case 12: colocarValorAenPosB(&a, &b);
 				break;
         }
     }
