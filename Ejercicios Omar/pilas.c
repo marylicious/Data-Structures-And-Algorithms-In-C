@@ -131,6 +131,67 @@ void eliminarRepetidos(pila**p){
 
 }
 
+int insertar_fondo(pila **p, int x){
+    int z,res;
+    if(!vacio(*p)){
+        z=tope(*p);
+        
+        desapilar(p);
+        
+        res=insertar_fondo(p,x);
+        
+        if(!res){
+            apilar(p,x);
+        }
+
+        apilar(p,z); return 1;
+
+    }
+
+    return 0;
+}
+
+void voltear(pila **p){
+int z, res;
+    if(!vacio(*p)){
+        z=tope(*p);
+        desapilar(p);
+        voltear(p);
+        res=insertar_fondo(p,z);
+        if(!res){
+            apilar(p,z);
+        }
+    }
+}
+
+int dejarParesSup(pila **p){
+    int z, res;
+    
+    if(!vacio(*p)){
+        
+        z=tope(*p);
+        desapilar(p);
+        res=dejarParesSup(p);
+
+        if(!res){//siempre apila el ultimo
+            apilar(p,z);
+        
+        } else {
+            
+            if(z%2==0){
+                apilar(p,z);
+            } else {
+                insertar_fondo(p,z);
+            }
+        }
+
+        return 1;
+    }
+
+    return 0;
+}
+
+
 
 void main () {
     int op = -1, x=0, y=0;
@@ -146,6 +207,8 @@ void main () {
         printf( "5.\tEliminar elemento todas las veces que aparece\n");
         printf( "6.\tEliminar elemento ultima vez que aparece\n");
         printf( "7.\tEliminar repetidos\n");
+        printf( "8.\tVoltear una pila\n");
+        printf( "9.\tDejar pares en la parte superior\n");
     
 		printf( "0.\tSALIR del sistema\n\n ");
         scanf("%i", &op);
@@ -172,6 +235,10 @@ void main () {
                 y= eliminarUltOcurr(&p,x);
                 break;
         case 7:eliminarRepetidos(&p);
+                break;
+        case 8:voltear(&p);
+                break;
+        case 9: y=dejarParesSup(&p);
                 break;
        
      

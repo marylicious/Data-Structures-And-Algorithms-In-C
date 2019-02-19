@@ -283,7 +283,7 @@ void main () {
 	while ( op ){
         
         printf( "\n\n\t\tMENU DE MANEJO DE LISTAS n\n");
-        /*printf( "1.\tInsertar numero en lista a\n");
+        printf( "1.\tInsertar numero en lista a\n");
         printf( "2.\tInsertar numero en lista b\n");
         printf( "3.\tEliminar numero en lista a\n");
         printf( "4.\tEliminar numero en lista b\n");
@@ -292,7 +292,7 @@ void main () {
 		printf( "7.\tIntercalar listas\n");
 		printf( "8.\tDejar pares en A e impares en B(problema borde)\n");
 		printf( "9.\tEliminar numeros comunes\n");
-		printf( "10.\tMezclar A con B(pero B desde atras) sin voltear B ni estructuras auxiliares\n");*/
+		printf( "10.\tMezclar A con B(pero B desde atras) sin voltear B ni estructuras auxiliares\n");
 		printf( "11.\tMostrar listas b\n");
 		printf( "12.\tInserte (mueva) cada valor de A, digamos x, en la posicion x de B \n");
 		printf( "0.\tSALIR del sistema\n\n ");
