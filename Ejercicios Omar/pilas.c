@@ -191,7 +191,71 @@ int dejarParesSup(pila **p){
     return 0;
 }
 
+int esPrimo(int num){
 
+    if((num==1)){
+        return 0;
+    }
+   
+    if ((num == 2) || (num == 3) || (num == 5) || (num == 7)) {
+        return 1;
+    }
+
+
+    if ( (num%2 == 0) || (num%3==0) || (num%5==0) || (num%7==0)){
+        return 0;
+    } else {
+        return 1;
+    }
+  
+}
+
+
+int dejarPrimInf(pila **p){
+    int z, res;
+    
+    if(!vacio(*p)){
+        
+        z=tope(*p);
+        desapilar(p);
+        res=dejarPrimInf(p);
+
+        if(!res){//siempre apila el ultimo
+            apilar(p,z);
+        
+        } else {
+            
+            if(esPrimo(z)){
+                insertar_fondo(p,z);
+                
+            } else {
+                apilar(p,z);
+            }
+        }
+
+        return 1;
+    }
+
+    return 0;
+}
+
+void dejarParesSupPrimInf(pila **p){
+    int x,y;
+    x=dejarParesSup(p);
+    y=dejarPrimInf(p);
+}
+
+void insertarOrd(pila **p, int x){
+    int z;
+    if(!vacio(*p)){
+        z=tope(*p);
+        if(z>x) {apilar(p,x); return;}
+        desapilar(p);
+        insertarOrd(p,x);
+        apilar(p,z);
+    }
+
+}
 
 void main () {
     int op = -1, x=0, y=0;
@@ -209,6 +273,8 @@ void main () {
         printf( "7.\tEliminar repetidos\n");
         printf( "8.\tVoltear una pila\n");
         printf( "9.\tDejar pares en la parte superior\n");
+        printf( "10.\tDeje los numeros par al tope, los primos al fondo\n");
+        printf( "11.\tInsertar Ordenadamente numero en pila\n");
     
 		printf( "0.\tSALIR del sistema\n\n ");
         scanf("%i", &op);
@@ -240,7 +306,12 @@ void main () {
                 break;
         case 9: y=dejarParesSup(&p);
                 break;
-       
+        case 10:dejarParesSupPrimInf(&p);
+                break;
+        case 11:printf("\n\nIndique dato a apilar ");
+		        scanf( "%i", &x);
+                insertarOrd(&p,x);
+                break;
      
         }
     }

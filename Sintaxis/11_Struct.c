@@ -13,6 +13,12 @@ struct Carro {
 
 typedef struct Carro CA; //se define el tipo CA
 
+//Otra manera:
+/* typedef struct {
+    char *dueno;
+    unsigned short int year;
+} CA;/ */
+
 int main () {
     
     struct Persona maria;
