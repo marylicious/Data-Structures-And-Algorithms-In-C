@@ -147,6 +147,35 @@ void eliminarRepetidos(doble **p){
 
     } 
 }
+
+void cambiar(int *a, int *b){
+    int aux = *a;
+    *a=*b;
+    *b= aux;
+}
+
+void sortBurbuja(doble *p){
+    
+    doble *fin=p, *i,*j;
+    int cont;
+
+    if(p)
+        for(i=p; i->prox!=p; i=i->prox){
+
+            cont=0;
+            for(j=p; j->prox!=fin; j=j->prox){
+                
+                if(j && j->prox)
+                    if(j->valor > j->prox->valor){
+                        cambiar(&(j->valor), &(j->prox->valor));
+                        cont++;
+                    }
+            }
+
+            if(cont == 0) break;
+            fin=fin->prev;
+        }
+}
 int main () {
 
     doble *p=NULL; 
@@ -159,6 +188,7 @@ int main () {
         printf( "2.\tMostrar\n ");
         printf( "3.\tInsertar luego de un valor dado(o al final)\n ");
         printf( "4.\tEliminar repetidos todas las ocurrencias\n ");
+        printf( "5.\tOrdenar por burbuja\n ");
         
 		printf( "0.\tSALIR del sistema\n\n ");
 		
@@ -178,6 +208,8 @@ int main () {
                     insertarLuegoDeValorDado(&p,x,y);
                     break;
             case 4: eliminarRepetidos(&p);
+                    break;
+            case 5: sortBurbuja(p);
                     break;
             
         }

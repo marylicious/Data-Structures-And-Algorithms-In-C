@@ -173,6 +173,34 @@ void eliminarParesInternos(AVL **p){
     }
 }
 
+int factorEquilibrio(AVL *p){
+    int der,izq,mayor;
+    if(p){
+        izq=factorEquilibrio(p->izq);
+        der=factorEquilibrio(p->der);
+        izq++; der++;
+        p->FE=der-izq;
+        der>izq?mayor=der:mayor=izq;
+        printf("el factor de equilibrio de nodo %i, es %i\n", p->valor,p->FE);
+        return mayor;
+    }
+
+    return 0;
+}
+
+int arbolCompleto(AVL *p){
+
+    if(p){
+        //chequea que tengan sus hijos
+        if((p->izq &&!(p->der)) || ((p->der) && !(p->izq))) return 0;
+        
+        //chequear alturas
+        if(alturaArbol(p->der)!= alturaArbol(p->izq)) return 0;
+
+        return(arbolCompleto(p->der) && arbolCompleto(p->izq));
+    }
+    return 1;
+}
 
 int main() {
     int op = -1, x=0, y=0;
@@ -189,6 +217,8 @@ int main() {
         printf( "7.\tImprimir arbol\n ");
         printf( "8.\tContar hojas hijo derecho PREGUNTAR\n ");
         printf( "9.\tEliminar pares que no sean hojas\n ");
+        printf( "10.\tCalcular factor de equilibrio de cada nodo\n ");
+        printf( "11.\tSaber si es arbol completo\n ");
         printf( "\n\n0.\tSALIR del sistema\n\n ");
 
         scanf("%i", &op);
@@ -235,6 +265,11 @@ int main() {
                     printf( "\n El arbol tiene %i hojas en sus hijo derecho\n ",x);
                     break;
             case 9: eliminarParesInternos(&p);
+                    break;
+            case 10:factorEquilibrio(p);
+                    break;
+            case 11:y=arbolCompleto(p);
+                    printf( "\n Es arbol completo?= %i\n ",y);
                     break;
         }
 
